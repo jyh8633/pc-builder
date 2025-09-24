@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>간단 PC 견적 (GitHub Pages 샘플)</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:18px auto;padding:10px;color:#111}
+    header{display:flex;justify-content:space-between;align-items:center}
+    input,select,button{font-size:16px;padding:8px;margin:6px 0}
+    .card{border:1px solid #ddd;padding:12px;border-radius:6px;margin:10px 0}
+    .part{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #eee}
+    .link-btn{background:#0b69ff;color:white;padding:6px 10px;border-radius:4px;text-decoration:none}
+    .warn{color:#b33}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>간단 PC 견적 (무료 GitHub Pages 샘플)</h1>
+    <div>예산과 용도 입력 → 추천 견적</div>
+  </header>
+
+  <section class="card">
+    <label>예산(원): <input id="budget" type="number" placeholder="예: 1200000" /></label><br/>
+    <label>용도:
+      <select id="usecase">
+        <option value="gaming">게이밍</option>
+        <option value="editing">영상편집</option>
+        <option value="office">사무/일반</option>
+        <option value="budget">가성비</option>
+      </select>
+    </label>
+    <br/>
+    <button id="estimateBtn">견적 받기</button>
+    <div id="status" style="margin-top:8px;color:#555"></div>
+  </section>
+
+  <section id="results"></section>
+
+<script>
+let parts = [];
+let categories = {};
+
+async function loadParts(){
+  try{
+    const r = await fetch('parts.json');
+    if(!r.ok) throw new Error('parts.json을 불러오지 못했습니다.');
+    parts = await r.json();
+    categories = {};
+    parts.forEach(p => {
+      const c = (p.category || 'unknown').toLowerCase();
+      if(!categories[c]) categories[c]=[];
+      // ensure numeric price
+      p.price = Number(p.price) || 0;
+      categories[c].push(p);
+    });
+    document.getElementById('status').textContent = '부품 데이터 로드 완료.';
+  }catch(e){
+    document.getElementById('status').innerHTML = '<span class="warn">부품 데이터 로드 실패: '+e.message+'</span>';
+  }
+}
+
+// 예산 분배 비율 (간단)
+const shares = {cpu:0.30, gpu:0.35, motherboard:0.10, ram:0.10, storage:0.08, psu:0.05, case:0.02};
+
+function pickClosestUnder(list,target){
+  if(!list || list.length===0) return null;
+  const under = list.filter(i => (i.price || 0) <= target);
+  if(under.length) return under.reduce((a,b)=> a.price > b.price ? a : b );
+  return list.reduce((a,b)=> a.price < b.price ? a : b);
+}
+
+function pickCheapest(list){ if(!list||list.length===0) return null; return list.reduce((a,b)=> a.price < b.price ? a : b); }
+
+function formatPrice(n){ return Number(n).toLocaleString('ko-KR') + '원'; }
+
+function estimate(){
+  const budget = Number(document.getElementById('budget').value);
+  const usecase = document.getElementById('usecase').value;
+  if(!budget || budget <= 0){ alert('예산을 숫자로 입력해주세요.'); return; }
+  if(!parts || parts.length===0){ alert('parts.json 파일을 업로드하고 페이지를 새로고침하세요.'); return; }
+
+  // targets
+  const target = {};
+  Object.keys(shares).forEach(k => target[k] = Math.floor(budget * shares[k]));
+
+  // CPU
+  const cpus = (categories['cpu'] || []).filter(p => !p.use_cases || p.use_cases.length===0 || p.use_cases.includes(usecase));
+  let cpu = pickClosestUnder(cpus, target.cpu) || pickCheapest(cpus);
+
+  // GPU
+  const gpus = (categories['gpu'] || []).filter(p => !p.use_cases || p.use_cases.length===0 || p.use_cases.includes(usecase));
+  let gpu = pickClosestUnder(gpus, target.gpu) || pickCheapest(gpus);
+
+  // Motherboard: match CPU socket if possible
+  let mbs = categories['motherboard'] || [];
+  let mb = null;
+  if(cpu && cpu.socket) {
+    const mCandidates = mbs.filter(m => m.socket && m.socket === cpu.socket);
+    mb = pickClosestUnder(mCandidates, target.motherboard) || pickClosestUnder(mbs, target.motherboard) || pickCheapest(mbs);
+  } else {
+    mb = pickClosestUnder(mbs, target.motherboard) || pickCheapest(mbs);
+  }
+
+  // RAM: try to match motherboard ddr
+  let rams = categories['ram'] || [];
+  let ram = null;
+  if(mb && mb.ddr) {
+    const rCandidates = rams.filter(r => r.ddr && r.ddr === mb.ddr);
+    ram = pickClosestUnder(rCandidates, target.ram) || pickClosestUnder(rams, target.ram) || pickCheapest(rams);
+  } else {
+    ram = pickClosestUnder(rams, target.ram) || pickCheapest(rams);
+  }
+
+  // Storage
+  let storage = pickClosestUnder(categories['storage'] || [], target.storage) || pickCheapest(categories['storage']||[]);
+
+  // PSU: choose watt >= cpu.power + gpu.power + 100 margin
+  let requiredW = 0;
+  if(cpu && cpu.power) requiredW += Number(cpu.power);
+  if(gpu && gpu.power) requiredW += Number(gpu.power);
+  requiredW += 150; // 안전여유
+  let psus = (categories['psu'] || []).filter(p => p.watt && Number(p.watt) >= requiredW);
+  let psu = pickClosestUnder(psus, target.psu) || pickClosestUnder(categories['psu']||[], target.psu) || pickCheapest(categories['psu']||[]);
+
+  // Case
+  let casep = pickClosestUnder(categories['case']||[], target.case) || pickCheapest(categories['case']||[]);
+
+  const chosen = {cpu,gpu,mb,ram,storage,psu,case:casep};
+  // calculate total
+  let total = 0;
+  Object.values(chosen).forEach(x => { if(x && x.price) total += Number(x.price); });
+
+  // render
+  const out = document.getElementById('results');
+  out.innerHTML = '';
+  const h = document.createElement('div');
+  h.className='card';
+  h.innerHTML = `<h3>추천 견적 (총 ${formatPrice(total)})</h3><div>예산: ${formatPrice(budget)} / 추천 총액: ${formatPrice(total)}</div>`;
+  out.appendChild(h);
+
+  Object.keys(chosen).forEach(cat => {
+    const p = chosen[cat];
+    const div = document.createElement('div');
+    div.className = 'card';
+    if(p){
+      div.innerHTML = `<strong>${cat.toUpperCase()}</strong>
+        <div class="part"><div>${p.name || p.title || '이름 없음'}</div><div>${formatPrice(p.price)}</div></div>
+        <div>세부: ${p.socket?('소켓: '+p.socket+' / '):''}${p.ddr?('DDR: '+p.ddr+' / '):''}${p.watt?('W: '+p.watt+' / '):''}</div>
+        ${p.affiliate_url?('<div style="margin-top:8px"><a class="link-btn" target="_blank" href="'+p.affiliate_url+'">구매하러 가기</a></div>') : '<div style="color:#777;margin-top:8px">구매 링크 없음</div>'}`;
+    } else {
+      div.innerHTML = `<strong>${cat.toUpperCase()}</strong><div style="color:#b33">추천 부품을 찾지 못했습니다.</div>`;
+    }
+    out.appendChild(div);
+  });
+
+  // compatibility note
+  const comp = document.createElement('div');
+  comp.className='card';
+  let compMsg = '';
+  if(cpu && mb){
+    if(cpu.socket && mb.socket && cpu.socket === mb.socket) compMsg += 'CPU 소켓과 메인보드 소켓이 일치합니다. ';
+    else compMsg += '경고: CPU 소켓과 메인보드 소켓이 일치하지 않을 수 있습니다. ';
+  }
+  if(mb && ram){
+    if(mb.ddr && ram.ddr && mb.ddr === ram.ddr) compMsg += '메인보드와 RAM의 DDR 규격이 일치합니다.';
+    else compMsg += '경고: 메인보드와 RAM의 DDR 규격이 일치하지 않을 수 있습니다.';
+  }
+  comp.innerHTML = '<strong>호환성 요약</strong><div>' + compMsg + '</div>';
+  out.appendChild(comp);
+}
+
+document.getElementById('estimateBtn').addEventListener('click', estimate);
+loadParts();
+</script>
+</body>
+</html>
