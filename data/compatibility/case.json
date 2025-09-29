@@ -1,0 +1,5 @@
+[
+  {"model":"NZXT H510","gpuMaxLength":400,"psuMaxLength":180,"formFactor":"ATX"},
+  {"model":"Cooler Master Q300L","gpuMaxLength":360,"psuMaxLength":160,"formFactor":"mATX"},
+  {"model":"Fractal Meshify C","gpuMaxLength":315,"psuMaxLength":200,"formFactor":"ATX"}
+]
