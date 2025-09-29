@@ -1,0 +1,5 @@
+[
+  {"model":"Intel i5-12400F","socket":"LGA1700","power":65},
+  {"model":"Intel i7-12700F","socket":"LGA1700","power":95},
+  {"model":"AMD Ryzen 5 5600","socket":"AM4","power":65}
+]
