@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>AI 자동 견적</title>
+</head>
+<body>
+<h1>AI 자동 견적</h1>
+
+<label>예산(원): <input type="number" id="budget"></label>
+<button onclick="makeEstimate()">견적 내기</button>
+<pre id="output"></pre>
+<a href="index.html">← 메인으로 돌아가기</a>
+
+<script>
+let cpu=[], board=[], ram=[], gpu=[], psu=[], caseData=[], storage=[], cooler=[];
+
+Promise.all([
+  fetch('data/estimate/cpu.json').then(r=>r.json()),
+  fetch('data/estimate/board.json').then(r=>r.json()),
+  fetch('data/estimate/ram.json').then(r=>r.json()),
+  fetch('data/estimate/gpu.json').then(r=>r.json()),
+  fetch('data/estimate/psu.json').then(r=>r.json()),
+  fetch('data/estimate/case.json').then(r=>r.json()),
+  fetch('data/estimate/storage.json').then(r=>r.json()),
+  fetch('data/estimate/cooler.json').then(r=>r.json())
+]).then(([cpuData, boardData, ramData, gpuData, psuData, caseD, storageData, coolerData])=>{
+  cpu=cpuData; board=boardData; ram=ramData; gpu=gpuData; psu=psuData; caseData=caseD; storage=storageData; cooler=coolerData;
+});
+
+function makeEstimate(){
+  const budget=parseInt(document.getElementById("budget").value);
+  let best=null;
+
+  cpu.forEach(c=>{
+    board.forEach(b=>{
+      if(c.socket!==b.socket) return;
+      ram.forEach(r=>{
+        if(r.type!==b.ramType) return;
+        gpu.forEach(g=>{
+          caseData.forEach(cs=>{
+            psu.forEach(p=>{
+              storage.forEach(s=>{
+                cooler.forEach(co=>{
+                  let totalPower=c.power+r.power+(g.power||0)+(s.power||0)+(co.power||0);
+                  if(totalPower>p.capacity) return;
+                  let totalPrice=c.price+b.price+r.price+g.price+p.price+cs.price+s.price+co.price;
+                  if(totalPrice>budget) return;
+                  let performance=c.performance+(r.performance||0)+(g.performance||0);
+                  if(!best || performance>best.performance){
+                    best={cpu:c.model, board:b.model, ram:r.model, gpu:g.model, psu:p.model, case:cs.model, storage:s.model, cooler:co.model, totalPrice:totalPrice, totalPower:totalPower, performance:performance};
+                  }
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+  });
+
+  document.getElementById("output").innerText=best?JSON.stringify(best,null,2):"예산에 맞는 조합이 없습니다.";
+}
+</script>
+</body>
+</html>
