@@ -11,25 +11,22 @@ async function loadData() {
   renderSelectors();
 }
 
-// 부품 선택창 렌더링
+// 선택창 렌더링
 function renderSelectors() {
-  const builder = document.getElementById("builder-list");
+  const builder = document.getElementById("builder");
   builder.innerHTML = "";
 
-  parts.forEach((part) => {
-    const div = document.createElement("div");
-    div.className = "part-row";
-
+  parts.forEach(part => {
     const label = document.createElement("label");
-    label.textContent = part.toUpperCase();
+    label.textContent = `${part.toUpperCase()}: `;
 
     const select = document.createElement("select");
-    const option = document.createElement("option");
-    option.value = "";
-    option.textContent = "선택 없음";
-    select.appendChild(option);
+    const empty = document.createElement("option");
+    empty.value = "";
+    empty.textContent = "선택 안 함";
+    select.appendChild(empty);
 
-    dataCache[part].forEach((item) => {
+    dataCache[part].forEach(item => {
       const opt = document.createElement("option");
       opt.value = item.model;
       opt.textContent = item.model;
@@ -37,20 +34,20 @@ function renderSelectors() {
     });
 
     select.addEventListener("change", () => {
-      selected[part] = select.value
-        ? dataCache[part].find((i) => i.model === select.value)
-        : null;
-      updateCompatibility();
+      selected[part] = select.value ? dataCache[part].find(i => i.model === select.value) : null;
+      checkCompatibility();
     });
 
-    div.appendChild(label);
-    div.appendChild(select);
-    builder.appendChild(div);
+    builder.appendChild(label);
+    builder.appendChild(select);
+    builder.appendChild(document.createElement("br"));
   });
 }
 
-// 양방향 호환성 필터
-function updateCompatibility() {
+// 호환성 검사
+function checkCompatibility() {
+  let msg = [];
+
   const cpu = selected.cpu;
   const board = selected.board;
   const ram = selected.ram;
@@ -58,47 +55,57 @@ function updateCompatibility() {
   const psu = selected.psu;
   const pcCase = selected.case;
 
-  // 1️⃣ CPU ↔ 보드 (소켓 일치)
+  // 1️⃣ CPU ↔ BOARD
   if (cpu && board && cpu.socket !== board.socket) {
-    alert("CPU와 메인보드의 소켓이 맞지 않습니다!");
+    msg.push("❌ CPU와 메인보드의 소켓이 호환되지 않습니다.");
   }
 
-  // 2️⃣ 보드 ↔ RAM (RAM 타입 일치)
+  // 2️⃣ CPU ↔ RAM
+  if (cpu && ram && board && ram.type !== board.ramType) {
+    msg.push("❌ CPU와 RAM의 타입이 다릅니다 (메인보드 기준).");
+  }
+
+  // 3️⃣ BOARD ↔ RAM
   if (board && ram && board.ramType !== ram.type) {
-    alert("메인보드와 RAM의 타입이 다릅니다!");
+    msg.push("❌ 메인보드와 RAM의 타입이 다릅니다.");
   }
 
-  // 3️⃣ 케이스 ↔ GPU/PSU (길이 및 폼팩터)
+  // 4️⃣ CASE ↔ BOARD
+  if (pcCase && board && pcCase.formFactor !== board.formFactor) {
+    msg.push("❌ 케이스와 메인보드의 폼팩터가 맞지 않습니다.");
+  }
+
+  // 5️⃣ CASE ↔ GPU
   if (pcCase && gpu && gpu.length > pcCase.gpuMaxLength) {
-    alert("그래픽카드가 케이스에 들어가지 않습니다!");
-  }
-  if (pcCase && psu && psu.capacity > pcCase.psuMaxLength) {
-    alert("케이스의 파워서플라이 공간이 부족합니다!");
+    msg.push("❌ 그래픽카드가 케이스에 들어가지 않습니다.");
   }
 
-  // 4️⃣ 총 전력 계산
+  // 6️⃣ CASE ↔ PSU
+  if (pcCase && psu && psu.capacity > pcCase.psuMaxLength) {
+    msg.push("❌ 케이스에 파워서플라이가 맞지 않습니다.");
+  }
+
+  // 7️⃣ PSU 용량 ↔ 전체 전력
   let totalPower = 0;
-  [cpu, ram, gpu].forEach((item) => {
+  [cpu, ram, gpu].forEach(item => {
     if (item && item.power) totalPower += item.power;
   });
   if (psu && totalPower > psu.capacity) {
-    alert("파워 용량이 부족합니다!");
+    msg.push(`❌ 파워 용량 부족 (필요 전력: ${totalPower}W / PSU: ${psu.capacity}W)`);
   }
 
-  // 선택 요약 표시
-  const summary = document.getElementById("summaryText");
-  const chosen = parts
-    .map((p) => (selected[p] ? `${p.toUpperCase()}: ${selected[p].model}` : ""))
-    .filter(Boolean)
-    .join(" | ");
-  summary.textContent = chosen || "선택된 부품이 없습니다.";
+  if (msg.length === 0) {
+    msg.push("✅ 모든 부품이 호환됩니다!");
+  }
+
+  document.getElementById("result").innerHTML = msg.join("<br>");
 }
 
 // 초기화
 document.getElementById("resetBtn").addEventListener("click", () => {
-  selected.cpu = selected.board = selected.ram = selected.gpu = selected.psu = selected.case = null;
+  parts.forEach(p => selected[p] = null);
   renderSelectors();
-  document.getElementById("summaryText").textContent = "선택된 부품이 없습니다.";
+  document.getElementById("result").innerHTML = "";
 });
 
 loadData();
