@@ -1,51 +1,66 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>부품 호환성 검사 | PC-Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>PC-Builder</h1>
-  <nav>
-    <a href="index.html">홈</a> |
-    <a href="compatibility.html">부품 호환성 검사</a> |
-    <a href="#">가이드 견적</a> |
-    <a href="#">PC 부품 선택 가이드</a> |
-    <a href="#">게시판</a>
-  </nav>
+<body class="bg-gray-100 text-gray-800">
+  <!-- 헤더 -->
+  <header class="bg-white shadow-md">
+    <div class="max-w-5xl mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold text-blue-600">PC-Builder</h1>
+      <nav class="space-x-6">
+        <a href="index.html" class="hover:text-blue-600 font-medium">홈</a>
+        <a href="compatibility.html" class="hover:text-blue-600 font-medium">부품 호환성 검사</a>
+        <a href="#" class="hover:text-blue-600 font-medium">가이드 견적</a>
+        <a href="#" class="hover:text-blue-600 font-medium">PC 부품 선택 가이드</a>
+        <a href="#" class="hover:text-blue-600 font-medium">게시판</a>
+      </nav>
+    </div>
+  </header>
 
-  <h2>부품 호환성 검사</h2>
+  <!-- 본문 -->
+  <main class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+    <h2 class="text-2xl font-bold mb-6 text-gray-900">부품 호환성 검사</h2>
 
-  <div id="selectors">
-    <label>CPU:
-      <select id="cpu"></select>
-    </label><br>
+    <div id="selectors" class="space-y-4">
+      <div>
+        <label class="font-medium block mb-1">CPU</label>
+        <select id="cpu" class="w-full border rounded-lg p-2"></select>
+      </div>
+      <div>
+        <label class="font-medium block mb-1">메인보드</label>
+        <select id="board" class="w-full border rounded-lg p-2"></select>
+      </div>
+      <div>
+        <label class="font-medium block mb-1">RAM</label>
+        <select id="ram" class="w-full border rounded-lg p-2"></select>
+      </div>
+      <div>
+        <label class="font-medium block mb-1">GPU</label>
+        <select id="gpu" class="w-full border rounded-lg p-2"></select>
+      </div>
+      <div>
+        <label class="font-medium block mb-1">PSU</label>
+        <select id="psu" class="w-full border rounded-lg p-2"></select>
+      </div>
+      <div>
+        <label class="font-medium block mb-1">케이스</label>
+        <select id="case" class="w-full border rounded-lg p-2"></select>
+      </div>
+    </div>
 
-    <label>메인보드:
-      <select id="board"></select>
-    </label><br>
+    <div class="text-center mt-8">
+      <button id="resetBtn" class="bg-gray-300 hover:bg-gray-400 px-6 py-2 rounded-lg text-gray-700 font-medium transition">
+        초기화
+      </button>
+    </div>
 
-    <label>RAM:
-      <select id="ram"></select>
-    </label><br>
-
-    <label>GPU:
-      <select id="gpu"></select>
-    </label><br>
-
-    <label>PSU:
-      <select id="psu"></select>
-    </label><br>
-
-    <label>케이스:
-      <select id="case"></select>
-    </label><br>
-  </div>
-
-  <button id="resetBtn">초기화</button>
-
-  <h3>호환성 결과</h3>
-  <div id="result">선택된 부품이 없습니다.</div>
+    <h3 class="text-xl font-semibold mt-8 mb-3">호환성 결과</h3>
+    <div id="result" class="border rounded-lg p-4 bg-gray-50 text-gray-700">선택된 부품이 없습니다.</div>
+  </main>
 
   <script>
     const parts = ["cpu", "board", "ram", "gpu", "psu", "case"];
@@ -95,31 +110,32 @@
       const psu = selected.psu;
       const pcCase = selected.case;
 
-      // 간단한 호환성 규칙 예시
       if (cpu && board && cpu.socket !== board.socket) {
-        errors.push(`CPU(${cpu.name})와 메인보드(${board.name})의 소켓이 맞지 않습니다.`);
+        errors.push(`⚠️ CPU(${cpu.name})와 메인보드(${board.name})의 소켓이 맞지 않습니다.`);
       }
 
       if (board && ram && board.ramType !== ram.ramType) {
-        errors.push(`메인보드(${board.name})와 RAM(${ram.name})의 규격이 맞지 않습니다.`);
+        errors.push(`⚠️ 메인보드(${board.name})와 RAM(${ram.name})의 규격이 맞지 않습니다.`);
       }
 
       if (pcCase && board && pcCase.formFactor !== board.formFactor) {
-        errors.push(`케이스(${pcCase.name})와 메인보드(${board.name})의 크기가 맞지 않습니다.`);
+        errors.push(`⚠️ 케이스(${pcCase.name})와 메인보드(${board.name})의 크기가 맞지 않습니다.`);
       }
 
       if (pcCase && gpu && gpu.length > pcCase.gpuMaxLength) {
-        errors.push(`케이스(${pcCase.name})에 GPU(${gpu.name})가 들어가지 않습니다.`);
+        errors.push(`⚠️ 케이스(${pcCase.name})에 GPU(${gpu.name})가 들어가지 않습니다.`);
       }
 
-      if (psu && gpu && psu.watt < gpu.power) {
-        errors.push(`PSU(${psu.name})의 전력이 GPU(${gpu.name})를 지원하기에 부족합니다.`);
+      if (psu && gpu && psu.watt < gpu.power + 100) {
+        errors.push(`⚠️ PSU(${psu.name})의 전력이 GPU(${gpu.name})를 지원하기에 부족합니다.`);
       }
 
       if (errors.length > 0) {
-        resultDiv.innerHTML = "❌ 호환성 문제 발견:<br>" + errors.join("<br>");
+        resultDiv.innerHTML = errors.map(e => `<p>${e}</p>`).join("");
+        resultDiv.className = "border border-red-300 bg-red-50 text-red-700 rounded-lg p-4";
       } else {
-        resultDiv.textContent = "✅ 모든 부품이 호환됩니다.";
+        resultDiv.innerHTML = "✅ 모든 부품이 호환됩니다.";
+        resultDiv.className = "border border-green-300 bg-green-50 text-green-700 rounded-lg p-4";
       }
     }
 
@@ -129,6 +145,7 @@
         selected[p] = null;
       });
       document.getElementById("result").textContent = "선택된 부품이 없습니다.";
+      document.getElementById("result").className = "border rounded-lg p-4 bg-gray-50 text-gray-700";
     });
 
     loadData();
