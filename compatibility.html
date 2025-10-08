@@ -1,35 +1,119 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>부품 호환성 검사 | PC-Builder</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      margin: 0;
+      background-color: #f7f8fc;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(90deg, #4b6cb7, #182848);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    main {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 40px;
+      padding: 40px;
+    }
+
+    section {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 340px;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 48%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #764ba2, #667eea);
+    }
+
+    #summary, #power, #compatibility {
+      background: #f1f2f6;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>PC-Builder</h1>
+    <h1>🧩 PC-Builder</h1>
     <nav>
-      <a href="index.html">홈</a>
-      <a href="compatibility.html" class="active">부품 호환성 검사</a>
-      <a href="#">가이드 견적</a>
-      <a href="#">PC 부품 선택 가이드</a>
+      <a href="index.html">홈</a> |
+      <a href="compatibility.html">부품 호환성 검사</a> |
+      <a href="#">가이드 견적</a> |
+      <a href="#">PC 부품 선택 가이드</a> |
       <a href="#">게시판</a>
     </nav>
   </header>
 
-  <main class="builder-container">
-    <h2>부품 호환성 검사</h2>
-    <p>각 부품을 선택하면 호환성 검사가 자동으로 이루어집니다.</p>
+  <main>
+    <section>
+      <h2>부품 선택</h2>
+      <label>CPU</label><select id="cpu"></select>
+      <label>메인보드</label><select id="board"></select>
+      <label>RAM</label><select id="ram"></select>
+      <label>GPU</label><select id="gpu"></select>
+      <label>PSU</label><select id="psu"></select>
+      <label>케이스</label><select id="case"></select>
+      <div style="display:flex; justify-content:space-between; margin-top:10px;">
+        <button id="resetBtn">초기화</button>
+        <button id="summaryBtn">요약 보기</button>
+      </div>
+    </section>
 
-    <div id="builder"></div>
-    <button id="resetBtn">초기화</button>
-    <div id="result"></div>
+    <section>
+      <h2>호환성 결과</h2>
+      <div id="summary">선택된 부품이 없습니다.</div>
+      <div id="power">예상 전력: - W</div>
+      <div id="compatibility">호환성 상태: -</div>
+    </section>
   </main>
 
-  <footer>
-    © 2025 PC-Builder
-  </footer>
-
-  <script src="script.js"></script>
+  <script src="compatibility.js"></script>
 </body>
 </html>
