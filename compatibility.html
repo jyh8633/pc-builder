@@ -3,51 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>부품 호환성 검사</title>
+  <title>부품 호환성 검사 | 내 PC 빌더</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1><a href="index.html" style="color:white; text-decoration:none;">PC Builder</a></h1>
+    <h1>부품 호환성 검사</h1>
     <nav>
       <a href="index.html">홈</a>
-      <a href="compatibility.html" class="active">호환성 검사</a>
+      <a href="compatibility.html" class="highlight">호환성 검사</a>
     </nav>
   </header>
 
-  <main>
-    <h2>🧩 부품 호환성 검사</h2>
-    <div id="builder">
-      <div class="selector">
-        <label>CPU:</label>
-        <select id="cpu"></select>
-      </div>
-      <div class="selector">
-        <label>메인보드:</label>
-        <select id="board"></select>
-      </div>
-      <div class="selector">
-        <label>RAM:</label>
-        <select id="ram"></select>
-      </div>
-      <div class="selector">
-        <label>그래픽카드:</label>
-        <select id="gpu"></select>
-      </div>
-      <div class="selector">
-        <label>파워서플라이(PSU):</label>
-        <select id="psu"></select>
-      </div>
-      <div class="selector">
-        <label>케이스:</label>
-        <select id="case"></select>
-      </div>
+  <main class="compatibility-container">
+    <div class="part-selector">
+      <h2>CPU</h2>
+      <select id="cpuSelect">
+        <option value="">CPU 선택</option>
+      </select>
     </div>
-  </main>
 
-  <footer>
-    <p>© 2025 PC Builder</p>
-  </footer>
+    <div class="part-selector">
+      <h2>메인보드</h2>
+      <select id="motherboardSelect">
+        <option value="">메인보드 선택</option>
+      </select>
+    </div>
+
+    <div class="part-selector">
+      <h2>RAM</h2>
+      <select id="ramSelect">
+        <option value="">RAM 선택</option>
+      </select>
+    </div>
+
+    <div class="part-selector">
+      <h2>그래픽카드 (GPU)</h2>
+      <select id="gpuSelect">
+        <option value="">그래픽카드 선택</option>
+      </select>
+    </div>
+
+    <button id="resetBtn" class="btn-reset">선택 초기화</button>
+  </main>
 
   <script src="script.js"></script>
 </body>
