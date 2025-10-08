@@ -55,49 +55,39 @@ function checkCompatibility() {
   const psu = selected.psu;
   const pcCase = selected.case;
 
-  // 1️⃣ CPU ↔ BOARD
   if (cpu && board && cpu.socket !== board.socket) {
-    msg.push("❌ CPU와 메인보드의 소켓이 호환되지 않습니다.");
+    msg.push("❌ CPU와 메인보드 소켓 불일치");
   }
 
-  // 2️⃣ CPU ↔ RAM
   if (cpu && ram && board && ram.type !== board.ramType) {
-    msg.push("❌ CPU와 RAM의 타입이 다릅니다 (메인보드 기준).");
+    msg.push("❌ CPU-RAM 타입 불일치 (메인보드 기준)");
   }
 
-  // 3️⃣ BOARD ↔ RAM
   if (board && ram && board.ramType !== ram.type) {
-    msg.push("❌ 메인보드와 RAM의 타입이 다릅니다.");
+    msg.push("❌ 메인보드와 RAM 타입 불일치");
   }
 
-  // 4️⃣ CASE ↔ BOARD
   if (pcCase && board && pcCase.formFactor !== board.formFactor) {
-    msg.push("❌ 케이스와 메인보드의 폼팩터가 맞지 않습니다.");
+    msg.push("❌ 케이스와 메인보드 폼팩터 불일치");
   }
 
-  // 5️⃣ CASE ↔ GPU
   if (pcCase && gpu && gpu.length > pcCase.gpuMaxLength) {
-    msg.push("❌ 그래픽카드가 케이스에 들어가지 않습니다.");
+    msg.push("❌ GPU가 케이스에 들어가지 않음");
   }
 
-  // 6️⃣ CASE ↔ PSU
   if (pcCase && psu && psu.capacity > pcCase.psuMaxLength) {
-    msg.push("❌ 케이스에 파워서플라이가 맞지 않습니다.");
+    msg.push("❌ PSU가 케이스에 들어가지 않음");
   }
 
-  // 7️⃣ PSU 용량 ↔ 전체 전력
   let totalPower = 0;
   [cpu, ram, gpu].forEach(item => {
     if (item && item.power) totalPower += item.power;
   });
   if (psu && totalPower > psu.capacity) {
-    msg.push(`❌ 파워 용량 부족 (필요 전력: ${totalPower}W / PSU: ${psu.capacity}W)`);
+    msg.push(`❌ PSU 용량 부족 (필요: ${totalPower}W / PSU: ${psu.capacity}W)`);
   }
 
-  if (msg.length === 0) {
-    msg.push("✅ 모든 부품이 호환됩니다!");
-  }
-
+  if (msg.length === 0) msg.push("✅ 모든 부품 호환!");
   document.getElementById("result").innerHTML = msg.join("<br>");
 }
 
