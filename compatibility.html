@@ -1,39 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>부품 호환성 검사 | PC Builder</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>부품 호환성 검사 | PC-Builder</title>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <h1><a href="index.html">🖥 PC Builder</a></h1>
-      <nav>
-        <a href="index.html">홈</a>
-        <a href="compatibility.html" class="active">부품 호환성 검사</a>
-      </nav>
-    </div>
-  </header>
+  <h1>PC-Builder</h1>
+  <nav>
+    <a href="index.html">홈</a> |
+    <a href="compatibility.html">부품 호환성 검사</a> |
+    <a href="#">가이드 견적</a> |
+    <a href="#">PC 부품 선택 가이드</a> |
+    <a href="#">게시판</a>
+  </nav>
 
-  <main class="builder-container">
-    <h2>부품 구성 리스트</h2>
-    <p class="desc">원하는 부품을 선택하면 자동으로 호환되는 항목만 표시됩니다.</p>
+  <h2>부품 호환성 검사</h2>
+  <p>각 부품을 선택하면 호환성 검사가 자동으로 이루어집니다.</p>
 
-    <div id="builder-list" class="builder-list">
-      <!-- JS로 부품 선택 섹션 자동 생성 -->
-    </div>
+  <div id="builder"></div>
 
-    <div class="summary">
-      <button id="resetBtn">구성 초기화</button>
-      <div id="summaryText">선택된 부품이 없습니다.</div>
-    </div>
-  </main>
-
-  <footer>
-    <p>© 2025 PC Builder</p>
-  </footer>
+  <button id="resetBtn">초기화</button>
+  <div id="result"></div>
 
   <script src="script.js"></script>
 </body>
