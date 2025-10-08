@@ -10,9 +10,8 @@
   <!-- 헤더 -->
   <header class="bg-white shadow-md">
     <div class="max-w-5xl mx-auto flex justify-between items-center p-4">
-      <h1 class="text-2xl font-bold text-blue-600">PC-Builder</h1>
+      <a href="index.html" class="text-2xl font-bold text-blue-600 hover:text-blue-700 transition">PC-Builder</a>
       <nav class="space-x-6">
-        <a href="index.html" class="hover:text-blue-600 font-medium">홈</a>
         <a href="compatibility.html" class="hover:text-blue-600 font-medium">부품 호환성 검사</a>
         <a href="#" class="hover:text-blue-600 font-medium">가이드 견적</a>
         <a href="#" class="hover:text-blue-600 font-medium">PC 부품 선택 가이드</a>
@@ -80,13 +79,13 @@
 
         items.forEach(item => {
           const option = document.createElement("option");
-          option.value = item.name;
-          option.textContent = item.name;
+          option.value = item.model;  // ✅ 수정됨 (name → model)
+          option.textContent = item.model;
           select.appendChild(option);
         });
 
         select.addEventListener("change", () => {
-          selected[part] = items.find(i => i.name === select.value);
+          selected[part] = items.find(i => i.model === select.value);
           updateCompatibility();
         });
       }
@@ -98,6 +97,7 @@
 
       if (selectedParts.length === 0) {
         resultDiv.textContent = "선택된 부품이 없습니다.";
+        resultDiv.className = "border rounded-lg p-4 bg-gray-50 text-gray-700";
         return;
       }
 
@@ -111,23 +111,23 @@
       const pcCase = selected.case;
 
       if (cpu && board && cpu.socket !== board.socket) {
-        errors.push(`⚠️ CPU(${cpu.name})와 메인보드(${board.name})의 소켓이 맞지 않습니다.`);
+        errors.push(`⚠️ CPU(${cpu.model})와 메인보드(${board.model})의 소켓이 맞지 않습니다.`);
       }
 
-      if (board && ram && board.ramType !== ram.ramType) {
-        errors.push(`⚠️ 메인보드(${board.name})와 RAM(${ram.name})의 규격이 맞지 않습니다.`);
+      if (board && ram && board.ramType !== ram.type) {
+        errors.push(`⚠️ 메인보드(${board.model})와 RAM(${ram.model})의 규격이 맞지 않습니다.`);
       }
 
       if (pcCase && board && pcCase.formFactor !== board.formFactor) {
-        errors.push(`⚠️ 케이스(${pcCase.name})와 메인보드(${board.name})의 크기가 맞지 않습니다.`);
+        errors.push(`⚠️ 케이스(${pcCase.model})와 메인보드(${board.model})의 크기가 맞지 않습니다.`);
       }
 
       if (pcCase && gpu && gpu.length > pcCase.gpuMaxLength) {
-        errors.push(`⚠️ 케이스(${pcCase.name})에 GPU(${gpu.name})가 들어가지 않습니다.`);
+        errors.push(`⚠️ 케이스(${pcCase.model})에 GPU(${gpu.model})가 들어가지 않습니다.`);
       }
 
-      if (psu && gpu && psu.watt < gpu.power + 100) {
-        errors.push(`⚠️ PSU(${psu.name})의 전력이 GPU(${gpu.name})를 지원하기에 부족합니다.`);
+      if (psu && gpu && psu.capacity < gpu.power + 100) {
+        errors.push(`⚠️ PSU(${psu.model})의 전력이 GPU(${gpu.model})를 지원하기에 부족합니다.`);
       }
 
       if (errors.length > 0) {
