@@ -3,24 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>부품 호환성 검사 | PC-Builder</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>PC-Builder</h1>
-  <nav>
-    <a href="index.html">홈</a> |
-    <a href="compatibility.html">부품 호환성 검사</a> |
-    <a href="#">가이드 견적</a> |
-    <a href="#">PC 부품 선택 가이드</a> |
-    <a href="#">게시판</a>
-  </nav>
+  <header>
+    <h1>PC-Builder</h1>
+    <nav>
+      <a href="index.html">홈</a>
+      <a href="compatibility.html" class="active">부품 호환성 검사</a>
+      <a href="#">가이드 견적</a>
+      <a href="#">PC 부품 선택 가이드</a>
+      <a href="#">게시판</a>
+    </nav>
+  </header>
 
-  <h2>부품 호환성 검사</h2>
-  <p>각 부품을 선택하면 호환성 검사가 자동으로 이루어집니다.</p>
+  <main class="builder-container">
+    <h2>부품 호환성 검사</h2>
+    <p>각 부품을 선택하면 호환성 검사가 자동으로 이루어집니다.</p>
 
-  <div id="builder"></div>
+    <div id="builder"></div>
+    <button id="resetBtn">초기화</button>
+    <div id="result"></div>
+  </main>
 
-  <button id="resetBtn">초기화</button>
-  <div id="result"></div>
+  <footer>
+    © 2025 PC-Builder
+  </footer>
 
   <script src="script.js"></script>
 </body>
