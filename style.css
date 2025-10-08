@@ -1,107 +1,104 @@
 /* 전체 공통 */
 body {
-  font-family: "Pretendard", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   margin: 0;
-  background-color: #f8f9fa;
+  padding: 0;
+  background-color: #f5f5f5;
   color: #333;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+h1, h2 {
+  margin: 0.5em 0;
 }
 
 /* 헤더 */
-.header {
-  background-color: #1f1f1f;
+header, nav {
+  background-color: #2c3e50;
   color: white;
-  padding: 1rem 0;
-}
-
-.header .container {
-  width: 90%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header h1 a {
-  color: #00aaff;
+  padding: 1em;
 }
 
 nav a {
-  margin-left: 20px;
   color: #ddd;
+  margin-right: 15px;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-nav a.active,
-nav a:hover {
-  color: #00aaff;
+nav a.active, nav a:hover {
+  color: #00b894;
 }
 
-/* 호환성 검사 메인 */
+/* 홈 화면 */
+.home-container {
+  text-align: center;
+  margin-top: 4em;
+}
+
+.home-container h2 {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.btn-main {
+  display: inline-block;
+  padding: 1em 2em;
+  background-color: #00b894;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* 호환성 검사 화면 */
 .builder-container {
   width: 90%;
-  max-width: 1000px;
-  margin: 2rem auto;
+  max-width: 800px;
+  margin: 2em auto;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-}
-
-.builder-container h2 {
-  margin-bottom: 1rem;
-}
-
-.desc {
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.builder-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  padding: 2em;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
 .part-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 1rem;
+  margin-bottom: 1em;
 }
 
-.part-row select {
+.part-row label {
+  display: inline-block;
+  width: 150px;
+}
+
+select {
+  padding: 0.5em;
   width: 60%;
-  padding: 0.5rem;
-}
-
-.summary {
-  margin-top: 2rem;
-  text-align: center;
 }
 
 #resetBtn {
-  padding: 0.7rem 1.5rem;
-  background: #00aaff;
-  border: none;
+  padding: 0.7em 1.5em;
+  background-color: #e74c3c;
   color: white;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
 }
 
 #resetBtn:hover {
-  background: #0088cc;
+  background-color: #c0392b;
 }
 
+#result {
+  margin-top: 1em;
+  font-weight: bold;
+}
+
+/* footer */
 footer {
   text-align: center;
-  padding: 1rem;
-  background: #1f1f1f;
+  margin-top: 3em;
+  padding: 1em;
+  background-color: #2c3e50;
   color: #ccc;
-  margin-top: 3rem;
 }
