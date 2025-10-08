@@ -1,51 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>부품 호환성 검사 | 내 PC 빌더</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>부품 호환성 검사 | PC Builder</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>부품 호환성 검사</h1>
-    <nav>
-      <a href="index.html">홈</a>
-      <a href="compatibility.html" class="highlight">호환성 검사</a>
-    </nav>
+  <header class="header">
+    <div class="container">
+      <h1><a href="index.html">🖥 PC Builder</a></h1>
+      <nav>
+        <a href="index.html">홈</a>
+        <a href="compatibility.html" class="active">부품 호환성 검사</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="compatibility-container">
-    <div class="part-selector">
-      <h2>CPU</h2>
-      <select id="cpuSelect">
-        <option value="">CPU 선택</option>
-      </select>
+  <main class="builder-container">
+    <h2>부품 구성 리스트</h2>
+    <p class="desc">원하는 부품을 선택하면 자동으로 호환되는 항목만 표시됩니다.</p>
+
+    <div id="builder-list" class="builder-list">
+      <!-- JS로 부품 선택 섹션 자동 생성 -->
     </div>
 
-    <div class="part-selector">
-      <h2>메인보드</h2>
-      <select id="motherboardSelect">
-        <option value="">메인보드 선택</option>
-      </select>
+    <div class="summary">
+      <button id="resetBtn">구성 초기화</button>
+      <div id="summaryText">선택된 부품이 없습니다.</div>
     </div>
-
-    <div class="part-selector">
-      <h2>RAM</h2>
-      <select id="ramSelect">
-        <option value="">RAM 선택</option>
-      </select>
-    </div>
-
-    <div class="part-selector">
-      <h2>그래픽카드 (GPU)</h2>
-      <select id="gpuSelect">
-        <option value="">그래픽카드 선택</option>
-      </select>
-    </div>
-
-    <button id="resetBtn" class="btn-reset">선택 초기화</button>
   </main>
+
+  <footer>
+    <p>© 2025 PC Builder</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
