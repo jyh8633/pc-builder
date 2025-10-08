@@ -4,32 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PC-Builder</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <!-- 헤더 -->
-  <header class="bg-white shadow-md">
-    <div class="max-w-5xl mx-auto flex justify-between items-center p-4">
-      <h1 class="text-2xl font-bold text-blue-600">PC-Builder</h1>
-      <nav class="space-x-6">
-        <a href="index.html" class="hover:text-blue-600 font-medium">홈</a>
-        <a href="compatibility.html" class="hover:text-blue-600 font-medium">부품 호환성 검사</a>
-        <a href="#" class="hover:text-blue-600 font-medium">가이드 견적</a>
-        <a href="#" class="hover:text-blue-600 font-medium">PC 부품 선택 가이드</a>
-        <a href="#" class="hover:text-blue-600 font-medium">게시판</a>
-      </nav>
-    </div>
+<body>
+  <header>
+    <div class="logo" onclick="location.href='index.html'">PC-Builder</div>
+    <nav>
+      <a href="compatibility.html">부품 호환성 검사</a>
+      <a href="#">가이드 견적</a>
+      <a href="#">PC 부품 선택 가이드</a>
+      <a href="#">게시판</a>
+    </nav>
   </header>
 
-  <!-- 본문 -->
-  <main class="max-w-4xl mx-auto text-center mt-20 p-6">
-    <h2 class="text-3xl font-bold mb-4 text-gray-900">환영합니다!</h2>
-    <p class="text-lg text-gray-600 mb-8">
-      PC-Builder는 CPU, 메인보드, RAM, GPU, PSU, 케이스의 호환성을 자동으로 확인해주는 웹앱입니다.
-    </p>
-    <a href="compatibility.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
-      부품 호환성 검사 시작하기 →
-    </a>
+  <main class="home">
+    <h1>PC-Builder에 오신 것을 환영합니다</h1>
+    <p>당신만의 완벽한 PC를 구성해보세요.</p>
+    <button onclick="location.href='compatibility.html'">부품 호환성 검사 시작하기</button>
   </main>
 </body>
 </html>
