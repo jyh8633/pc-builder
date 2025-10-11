@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>부품 호환성 검사 - PC Builder</title>
+  <title>부품 호환성 검사 | PC-Builder</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -17,12 +17,24 @@
     </nav>
   </header>
 
-  <main>
+  <main class="compatibility">
     <h1>부품 호환성 검사</h1>
-    <!-- 기존 내용 그대로 유지 -->
+
+    <div id="selectors"></div>
+
+    <div class="buttons">
+      <button id="reset">초기화</button>
+      <button id="check">호환성 검사</button>
+    </div>
+
+    <div id="results">
+      <h2>호환성 결과</h2>
+      <div id="compatibilityResult">
+        <p>아직 부품을 선택하지 않았습니다.</p>
+      </div>
+    </div>
   </main>
 
-  <!-- ✅ JS 파일 경로만 변경 -->
-  <script src="scripts/compatibility.js"></script>
+  <script src=""scripts/compatibility.js"></script>
 </body>
 </html>
