@@ -1,35 +1,5 @@
 [
-  {
-    "name": "게이밍 스타터",
-    "totalPrice": 1250000,
-    "parts": [
-      {"category":"CPU","name":"Ryzen 5 5600"},
-      {"category":"GPU","name":"RTX 4060"},
-      {"category":"RAM","name":"16GB DDR4"},
-      {"category":"Storage","name":"1TB NVMe"}
-    ],
-    "note": "1080p 대부분 게임에서 중~높음 옵션으로 원활."
-  },
-  {
-    "name": "게이밍 어드밴스",
-    "totalPrice": 1900000,
-    "parts": [
-      {"category":"CPU","name":"Intel i5-13600K"},
-      {"category":"GPU","name":"RTX 4070"},
-      {"category":"RAM","name":"32GB DDR5"},
-      {"category":"Storage","name":"2TB NVMe"}
-    ],
-    "note": "QHD 환경에서 고 옵션, 스트리밍도 가능."
-  },
-  {
-    "name": "게이밍 하이엔드",
-    "totalPrice": 2800000,
-    "parts": [
-      {"category":"CPU","name":"Ryzen 7 7800X3D"},
-      {"category":"GPU","name":"RTX 4080"},
-      {"category":"RAM","name":"32GB DDR5"},
-      {"category":"Storage","name":"2TB NVMe"}
-    ],
-    "note": "4K/고주사율 환경의 고성능 빌드."
-  }
+  {"budget":1200000,"config":{"cpu":"i5-13400","mobo":"B760","ram":"16GB","gpu":"RTX3060","psu":"650W","case":"미들타워"},"note":"FHD 게임 상옵 평균 60FPS"},
+  {"budget":1800000,"config":{"cpu":"i7-13700","mobo":"B760","ram":"32GB","gpu":"RTX4070","psu":"750W","case":"미들타워"},"note":"QHD 게임 상옵 평균 60FPS"},
+  {"budget":2500000,"config":{"cpu":"i9-13900","mobo":"Z790","ram":"32GB","gpu":"RTX4080","psu":"850W","case":"풀타워"},"note":"4K 게임 상옵 평균 60FPS"}
 ]
