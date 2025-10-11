@@ -1,66 +1,54 @@
 {
   "office": [
     {
-      "budget": 50,
+      "budget": 100,
       "config": {
-        "cpu": "Intel Core i3-13100",
-        "mobo": "Asus PRIME B660M",
+        "cpu": "Intel Core i3-12100",
+        "mobo": "ASRock B660M",
         "ram": "16GB DDR4",
-        "gpu": "내장그래픽",
+        "gpu": "내장 GPU",
         "psu": "450W",
-        "case": "미들타워 케이스"
+        "case": "미니 타워"
       },
-      "note": "엑셀, 문서, 간단한 웹 브라우징에 적합"
+      "note": "문서 작업, 인터넷, 영상 스트리밍 가능"
     },
     {
-      "budget": 100,
+      "budget": 150,
       "config": {
         "cpu": "Intel Core i5-12400",
         "mobo": "MSI B660M",
         "ram": "16GB DDR4",
         "gpu": "GTX 1650",
         "psu": "550W",
-        "case": "미들타워 케이스"
+        "case": "미들 타워"
       },
-      "note": "중급 사무용, 간단한 영상 편집 가능"
+      "note": "사무용 + 간단한 온라인 게임 가능"
     }
   ],
   "gaming": [
     {
-      "budget": 100,
+      "budget": 200,
       "config": {
-        "cpu": "Intel Core i5-12400",
+        "cpu": "Intel Core i5-12400F",
         "mobo": "MSI B660M",
         "ram": "16GB DDR4",
-        "gpu": "RTX 3050",
-        "psu": "600W",
-        "case": "미들타워 케이스"
+        "gpu": "RTX 3060",
+        "psu": "650W",
+        "case": "미들 타워"
       },
-      "note": "1080p, 중옵 기준 60fps 게임 가능"
+      "note": "중옵 기준 최신 게임 60~80FPS 가능"
     },
     {
-      "budget": 150,
+      "budget": 300,
       "config": {
         "cpu": "Intel Core i7-13700K",
-        "mobo": "Asus Z790",
+        "mobo": "ASUS Z790",
         "ram": "32GB DDR5",
         "gpu": "RTX 4070",
         "psu": "750W",
-        "case": "미들/풀타워 케이스"
+        "case": "풀 타워"
       },
-      "note": "1440p, 상옵 기준 120fps 게임 가능"
-    },
-    {
-      "budget": 250,
-      "config": {
-        "cpu": "Intel Core i9-14900K",
-        "mobo": "Asus Z790-E",
-        "ram": "64GB DDR5",
-        "gpu": "RTX 4090",
-        "psu": "1000W",
-        "case": "풀타워 케이스"
-      },
-      "note": "4K, 최고옵션 게임 환경 완벽 지원"
+      "note": "고옵 기준 최신 게임 100FPS 이상 가능"
     }
   ]
 }
