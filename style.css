@@ -94,3 +94,52 @@ select {
   gap: 15px;
   margin-top: 25px;
 }
+
+/* ========== Estimate: grid cards & modal (append to style.css) ========== */
+
+.estimate-summary { margin-bottom:12px; color:#555; font-size:14px; }
+
+.estimate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+/* 카드 */
+.estimate-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.estimate-title { margin:0 0 8px 0; font-size:1.05rem; }
+.estimate-price { color:#0b76d0; font-weight:700; margin:0 0 8px 0; }
+.estimate-parts { margin:0; padding-left:16px; color:#444; font-size:0.95rem; }
+.estimate-actions { margin-top:10px; text-align:right; }
+.estimate-actions .btn-detail {
+  padding:6px 10px; border-radius:8px; border:1px solid rgba(0,0,0,0.06);
+  background:transparent; cursor:pointer;
+}
+
+/* Modal */
+.modal {
+  display:none;
+  position:fixed; inset:0; align-items:center; justify-content:center;
+  background: rgba(0,0,0,0.45); z-index:1200;
+}
+.modal-content {
+  background:#fff; padding:18px; border-radius:12px; width:90%; max-width:720px;
+  box-shadow:0 8px 30px rgba(2,6,23,0.4);
+  position:relative;
+}
+.modal-close {
+  position:absolute; top:10px; right:12px;
+  background:transparent; border:0; font-size:22px; cursor:pointer;
+}
+
+/* responsive tweaks */
+@media (max-width:600px){
+  .estimate-grid { grid-template-columns: 1fr; }
+  .estimate-card { padding:14px; }
+}
