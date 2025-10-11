@@ -1,43 +1,23 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PC-Builder | 가이드 견적</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <div class="logo" onclick="location.href='index.html'">PC-Builder</div>
-    <nav>
-      <a href="compatibility.html">부품 호환성 검사</a>
-      <a href="estimate.html" class="active">가이드 견적</a>
-      <a href="#">PC 부품 선택 가이드</a>
-      <a href="#">게시판</a>
-    </nav>
-  </header>
-
-  <main class="estimate-main">
-    <h1>가이드 견적</h1>
-    <p>PC 사용 용도와 예산을 입력하면 추천 견적을 안내합니다.</p>
-
-    <div class="estimate-selection">
-      <div class="btn-group">
-        <button id="btn-office">사무용</button>
-        <button id="btn-gaming">게임용</button>
-      </div>
-
-      <div class="budget-input">
-        <label for="input-budget">예산 (만원)</label>
-        <input type="number" id="input-budget" placeholder="예: 150" />
-      </div>
-
-      <button id="btn-show">추천 견적 보기</button>
+<!-- estimate.html -->
+<main id="estimate-root" class="estimate-main">
+  <h1>가이드 견적</h1>
+  ...
+  <div class="estimate-selection">
+    <div class="btn-group">
+      <button id="btn-office">사무용</button>
+      <button id="btn-gaming">게임용</button>
     </div>
 
-    <div id="result"></div>
-  </main>
+    <div class="budget-input">
+      <label for="input-budget">예산 (만원)</label>
+      <input type="number" id="input-budget" placeholder="예: 150" />
+    </div>
 
-  <script src="scripts/estimate.js"></script>
-</body>
-</html>
+    <button id="btn-show">추천 견적 보기</button>
+  </div>
+
+  <div id="result"></div>
+</main>
+
+<!-- 스크립트는 하단에서 불러오기 (estimate 전용) -->
+<script src="estimate.js"></script>
