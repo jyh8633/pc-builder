@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>가이드 견적 - PC Builder</title>
+  <title>가이드 견적 | PC-Builder</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -17,24 +17,35 @@
     </nav>
   </header>
 
-  <main>
+  <main id="estimate-root" class="estimate">
     <h1>가이드 견적</h1>
-    <p>용도와 예산을 입력하면, 그에 맞는 PC 견적을 추천해드립니다.</p>
 
-    <div class="estimate-container">
-      <div class="type-selection">
-        <button id="btn-office">사무용</button>
-        <button id="btn-gaming">게임용</button>
-      </div>
+    <div class="buttons">
+      <button class="type-btn" data-type="office">사무용</button>
+      <button class="type-btn" data-type="game">게이밍용</button>
+    </div>
 
-      <input type="number" id="input-budget" placeholder="예산을 입력하세요 (만원)" />
-      <button id="btn-show">견적 보기</button>
+    <div class="price-range" style="margin-top:12px;">
+      <label>가격 범위 (원)</label>
+      <input type="number" id="minPrice" placeholder="최소 (예: 500000)" />
+      <span style="margin:0 8px">~</span>
+      <input type="number" id="maxPrice" placeholder="최대 (예: 2000000)" />
+      <button id="searchBtn">견적 보기</button>
+    </div>
 
-      <div id="result"></div>
+    <div id="estimateResults" class="estimate-results" style="margin-top:20px;">
+      <p>용도(사무용/게이밍용)를 선택하고 가격 범위를 입력한 뒤 '견적 보기'를 누르세요.</p>
     </div>
   </main>
 
-  <!-- ✅ 전용 스크립트 -->
+  <!-- 모달: 상세보기 -->
+  <div id="estimateModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="닫기">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
   <script src="scripts/estimate.js"></script>
 </body>
 </html>
