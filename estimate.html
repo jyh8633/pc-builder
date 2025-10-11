@@ -3,48 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>가이드 견적 | PC-Builder</title>
+  <title>가이드 견적</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- 상단 메뉴 -->
   <header>
-    <div class="logo" onclick="location.href='index.html'">PC-Builder</div>
+    <h1>PC 견적 가이드</h1>
     <nav>
-      <a href="compatibility.html">부품 호환성 검사</a>
+      <a href="index.html">호환성 검사</a>
       <a href="estimate.html" class="active">가이드 견적</a>
-      <a href="#">PC 부품 선택 가이드</a>
-      <a href="#">게시판</a>
     </nav>
   </header>
 
-  <main id="estimate-root" class="estimate">
-    <h1>가이드 견적</h1>
+  <main class="estimate-page">
+    <!-- ① 버튼 영역 -->
+    <section class="estimate-controls" style="text-align:center; margin-top:40px;">
+      <button id="officeBtn" class="guide-btn">사무용 PC</button>
+      <button id="gameBtn" class="guide-btn">게임용 PC</button>
+    </section>
 
-    <div class="buttons">
-      <button class="type-btn" data-type="office">사무용</button>
-      <button class="type-btn" data-type="game">게이밍용</button>
-    </div>
+    <!-- ② 가격 입력 영역 -->
+    <section class="price-inputs" style="text-align:center; margin:20px 0;">
+      <label>
+        최소 가격:
+        <input
+          type="number"
+          id="minPrice"
+          placeholder="예: 500000"
+          step="50000"
+          min="0"
+        /> 원
+      </label>
+      &nbsp;&nbsp;
+      <label>
+        최대 가격:
+        <input
+          type="number"
+          id="maxPrice"
+          placeholder="예: 1500000"
+          step="50000"
+          min="0"
+        /> 원
+      </label>
+      <button id="searchEstimates" style="margin-left:10px;">견적 보기</button>
+    </section>
 
-    <div class="price-range" style="margin-top:12px;">
-      <label>가격 범위 (원)</label>
-      <input type="number" id="minPrice" placeholder="최소 (예: 500000)" />
-      <span style="margin:0 8px">~</span>
-      <input type="number" id="maxPrice" placeholder="최대 (예: 2000000)" />
-      <button id="searchBtn">견적 보기</button>
-    </div>
-
-    <div id="estimateResults" class="estimate-results" style="margin-top:20px;">
-      <p>용도(사무용/게이밍용)를 선택하고 가격 범위를 입력한 뒤 '견적 보기'를 누르세요.</p>
-    </div>
+    <!-- ③ 결과 영역 -->
+    <section id="estimateResults" class="result-container" style="padding:20px;">
+      <p style="text-align:center;">원하는 견적 유형과 가격대를 선택하세요.</p>
+    </section>
   </main>
-
-  <!-- 모달: 상세보기 -->
-  <div id="estimateModal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <button class="modal-close" aria-label="닫기">&times;</button>
-      <div id="modalBody"></div>
-    </div>
-  </div>
 
   <script src="scripts/estimate.js"></script>
 </body>
