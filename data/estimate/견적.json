@@ -1,54 +1,54 @@
 {
   "office": [
     {
-      "budget": 100,
+      "budget": 60,
       "config": {
-        "cpu": "Intel Core i3-12100",
-        "mobo": "ASRock B660M",
-        "ram": "16GB DDR4",
-        "gpu": "내장 GPU",
-        "psu": "450W",
-        "case": "미니 타워"
+        "cpu": "Intel i5-13400",
+        "mobo": "ASUS B760M-A",
+        "ram": "DDR5 16GB",
+        "gpu": "내장 그래픽",
+        "psu": "600W",
+        "case": "마이크로닉스 mini"
       },
-      "note": "문서 작업, 인터넷, 영상 스트리밍 가능"
+      "note": "문서 작업, 인터넷, 유튜브, 간단한 포토샵 작업에 적합"
     },
     {
-      "budget": 150,
+      "budget": 80,
       "config": {
-        "cpu": "Intel Core i5-12400",
-        "mobo": "MSI B660M",
-        "ram": "16GB DDR4",
-        "gpu": "GTX 1650",
-        "psu": "550W",
-        "case": "미들 타워"
+        "cpu": "AMD Ryzen 5 7600",
+        "mobo": "ASRock B650M Pro",
+        "ram": "DDR5 32GB",
+        "gpu": "Radeon RX 6500 XT",
+        "psu": "650W",
+        "case": "NZXT H5"
       },
-      "note": "사무용 + 간단한 온라인 게임 가능"
+      "note": "고해상도 멀티태스킹 및 캐주얼 게임용"
     }
   ],
   "gaming": [
     {
-      "budget": 200,
+      "budget": 120,
       "config": {
-        "cpu": "Intel Core i5-12400F",
-        "mobo": "MSI B660M",
-        "ram": "16GB DDR4",
-        "gpu": "RTX 3060",
-        "psu": "650W",
-        "case": "미들 타워"
-      },
-      "note": "중옵 기준 최신 게임 60~80FPS 가능"
-    },
-    {
-      "budget": 300,
-      "config": {
-        "cpu": "Intel Core i7-13700K",
-        "mobo": "ASUS Z790",
-        "ram": "32GB DDR5",
+        "cpu": "Intel i5-14600K",
+        "mobo": "MSI Z790 Tomahawk",
+        "ram": "DDR5 32GB",
         "gpu": "RTX 4070",
         "psu": "750W",
-        "case": "풀 타워"
+        "case": "Lian Li 216"
       },
-      "note": "고옵 기준 최신 게임 100FPS 이상 가능"
+      "note": "대부분의 게임에서 중~상옵 100FPS 이상"
+    },
+    {
+      "budget": 200,
+      "config": {
+        "cpu": "AMD Ryzen 7 7800X3D",
+        "mobo": "ASUS X670E-A",
+        "ram": "DDR5 32GB",
+        "gpu": "RTX 4080",
+        "psu": "850W",
+        "case": "Fractal Design North"
+      },
+      "note": "QHD 이상 해상도에서도 최고 수준의 프레임 제공"
     }
   ]
 }
