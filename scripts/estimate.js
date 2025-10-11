@@ -1,84 +1,90 @@
-const officeBtn = document.getElementById("officeBtn");
-const gameBtn = document.getElementById("gameBtn");
-const searchBtn = document.getElementById("searchEstimates");
-const minPriceInput = document.getElementById("minPrice");
-const maxPriceInput = document.getElementById("maxPrice");
-const resultDiv = document.getElementById("estimateResults");
+let selectedType = null;
 
-let selectedType = ""; // 'office' or 'game'
+const btnOffice = document.getElementById('btn-office');
+const btnGaming = document.getElementById('btn-gaming');
+const minPriceInput = document.getElementById('min-budget');
+const maxPriceInput = document.getElementById('max-budget');
+const btnShow = document.getElementById('btn-show');
+const resultEl = document.getElementById('result');
+const logo = document.getElementById('logo');
 
-// --- 천 단위 콤마 자동 입력 ---
-function formatCurrency(input) {
-  const value = input.value.replace(/,/g, "");
-  if (!value) return;
-  input.value = Number(value).toLocaleString("ko-KR");
-}
+btnOffice.addEventListener('click', ()=>{ selectType('office'); });
+btnGaming.addEventListener('click', ()=>{ selectType('game'); });
+btnShow.addEventListener('click', showEstimate);
+logo.addEventListener('click', ()=>{ window.location.href = 'index.html'; });
 
-// --- 버튼 상태 토글 ---
-function setActiveButton(type) {
+[minPriceInput, maxPriceInput].forEach((input) => {
+  input.addEventListener('input', () => formatCurrency(input));
+  input.addEventListener('keydown', (e) => handleArrowKeys(e, input));
+});
+
+function selectType(type){
   selectedType = type;
-  [officeBtn, gameBtn].forEach((btn) => btn.classList.remove("active"));
-  document.getElementById(`${type}Btn`).classList.add("active");
+  btnOffice.classList.toggle('active', type==='office');
+  btnGaming.classList.toggle('active', type==='game');
 }
 
-// --- 가격 입력에 콤마 적용 ---
-[minPriceInput, maxPriceInput].forEach((input) => {
-  input.addEventListener("input", () => formatCurrency(input));
-});
+function formatCurrency(input){
+  let value = input.value.replace(/,/g, "");
+  if(!value) return;
+  value = parseInt(value, 10);
+  if(isNaN(value)) value = 0;
+  input.value = value.toLocaleString('ko-KR');
+}
 
-// --- 가격 입력 상하조정 (5만 단위로) ---
-[minPriceInput, maxPriceInput].forEach((input) => {
-  input.step = 50000;
-});
+function handleArrowKeys(e, input){
+  if(e.key === "ArrowUp" || e.key === "ArrowDown"){
+    e.preventDefault();
+    let value = parseInt(input.value.replace(/,/g,"")) || 0;
+    value += (e.key === "ArrowUp" ? 50000 : -50000);
+    if(value < 0) value = 0;
+    input.value = value.toLocaleString('ko-KR');
+  }
+}
 
-// --- 버튼 클릭 이벤트 ---
-officeBtn.addEventListener("click", () => setActiveButton("office"));
-gameBtn.addEventListener("click", () => setActiveButton("game"));
-
-// --- 견적 검색 ---
-searchBtn.addEventListener("click", async () => {
-  if (!selectedType) {
-    alert("사무용 또는 게임용 중 하나를 선택해주세요.");
+async function showEstimate(){
+  if(!selectedType){
+    alert('먼저 용도를 선택하세요!');
     return;
   }
 
-  const min = Number(minPriceInput.value.replace(/,/g, "")) || 0;
-  const max = Number(maxPriceInput.value.replace(/,/g, "")) || Infinity;
+  const minBudget = parseInt(minPriceInput.value.replace(/,/g,'')) || 0;
+  const maxBudget = parseInt(maxPriceInput.value.replace(/,/g,'')) || 0;
 
-  try {
-    const response = await fetch(`data/estimates/${selectedType}.json`);
-    const data = await response.json();
-
-    const filtered = data.filter(
-      (item) => item.totalPrice >= min && item.totalPrice <= max
-    );
-
-    displayResults(filtered);
-  } catch (err) {
-    console.error("견적 데이터를 불러오는 중 오류 발생:", err);
-    resultDiv.innerHTML = "<p>데이터를 불러오는 중 문제가 발생했습니다.</p>";
-  }
-});
-
-// --- 결과 표시 (카드형) ---
-function displayResults(list) {
-  if (list.length === 0) {
-    resultDiv.innerHTML = "<p>해당 가격대에 맞는 견적이 없습니다.</p>";
+  if(minBudget <= 0 || maxBudget <= 0 || minBudget > maxBudget){
+    alert('올바른 예산 범위를 입력하세요!');
     return;
   }
 
-  resultDiv.innerHTML = list
-    .map(
-      (item) => `
-      <div class="card" style="margin:15px; padding:15px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-        <h3>${item.name}</h3>
-        <p><strong>CPU:</strong> ${item.cpu}</p>
-        <p><strong>GPU:</strong> ${item.gpu}</p>
-        <p><strong>RAM:</strong> ${item.ram}</p>
-        <p><strong>저장장치:</strong> ${item.storage}</p>
-        <p><strong>예상가격:</strong> ${item.totalPrice.toLocaleString("ko-KR")} 원</p>
-      </div>
-    `
-    )
-    .join("");
+  const res = await fetch(`data/estimates/${selectedType}.json`);
+  const ESTIMATES = await res.json();
+
+  const filtered = ESTIMATES.filter(e => e.budget >= minBudget && e.budget <= maxBudget);
+  if(filtered.length === 0){
+    resultEl.innerHTML = "<p>해당 예산에 맞는 견적이 없습니다.</p>";
+    return;
+  }
+
+  renderEstimates(filtered);
+}
+
+function renderEstimates(list){
+  resultEl.innerHTML = "";
+  list.forEach(estimate => {
+    const c = estimate.config;
+    const card = document.createElement('div');
+    card.className = "estimate-card";
+    card.innerHTML = `
+      <h3>추천 견적</h3>
+      <p><strong>CPU:</strong> ${c.cpu}</p>
+      <p><strong>메인보드:</strong> ${c.mobo}</p>
+      <p><strong>RAM:</strong> ${c.ram}</p>
+      <p><strong>GPU:</strong> ${c.gpu}</p>
+      <p><strong>PSU:</strong> ${c.psu}</p>
+      <p><strong>Case:</strong> ${c.case}</p>
+      <p><strong>성능 설명:</strong> ${estimate.note}</p>
+      <p><strong>예산 기준:</strong> ${estimate.budget.toLocaleString('ko-KR')}원</p>
+    `;
+    resultEl.appendChild(card);
+  });
 }
