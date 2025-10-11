@@ -1,35 +1,5 @@
 [
-  {
-    "name": "사무용 베이식",
-    "totalPrice": 550000,
-    "parts": [
-      {"category":"CPU","name":"Intel i3-12100"},
-      {"category":"RAM","name":"16GB DDR4"},
-      {"category":"Storage","name":"500GB SSD"},
-      {"category":"GPU","name":"내장 그래픽"}
-    ],
-    "note": "문서 작업, 인터넷, 영상 시청에 알맞은 기본형."
-  },
-  {
-    "name": "사무용 스탠다드",
-    "totalPrice": 750000,
-    "parts": [
-      {"category":"CPU","name":"Intel i5-12400"},
-      {"category":"RAM","name":"16GB DDR4"},
-      {"category":"Storage","name":"1TB SSD"},
-      {"category":"GPU","name":"GTX 1650"}
-    ],
-    "note": "멀티태스킹과 간단한 편집 작업 가능."
-  },
-  {
-    "name": "사무용 프로",
-    "totalPrice": 1100000,
-    "parts": [
-      {"category":"CPU","name":"Intel i5-13500"},
-      {"category":"RAM","name":"32GB DDR4"},
-      {"category":"Storage","name":"1TB NVMe"},
-      {"category":"GPU","name":"GTX 1660 Super"}
-    ],
-    "note": "영상 편집/디자인 작업을 고려한 고성능 사무용."
-  }
+  {"budget":500000,"config":{"cpu":"i3-12100","mobo":"B660","ram":"8GB","gpu":"내장","psu":"400W","case":"미들타워"},"note":"간단한 문서작업용"},
+  {"budget":800000,"config":{"cpu":"i5-12400","mobo":"B660","ram":"16GB","gpu":"내장","psu":"500W","case":"미들타워"},"note":"사무용, 다중 문서 작업 가능"},
+  {"budget":1000000,"config":{"cpu":"i5-13400","mobo":"B760","ram":"16GB","gpu":"GTX1650","psu":"500W","case":"미들타워"},"note":"간단한 영상 편집 가능"}
 ]
